@@ -1,6 +1,6 @@
-package ui;
+package io.github.NavjotSRakhra.path.finder.ui;
 
-import data.Visualizable;
+import io.github.NavjotSRakhra.path.finder.data.Visualizable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,5 +31,6 @@ public class VisualizationJPanel extends JPanel {
                 g.fillRect((int) (i * rectWidth), (int) (j * rectHeight), (int) rectWidth, (int) rectHeight);
             }
         }
+
     }
 }

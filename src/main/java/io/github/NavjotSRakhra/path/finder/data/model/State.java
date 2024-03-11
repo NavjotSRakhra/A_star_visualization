@@ -1,6 +1,6 @@
-package data.model;
+package io.github.NavjotSRakhra.path.finder.data.model;
 
-import data.Visualizable;
+import io.github.NavjotSRakhra.path.finder.data.Visualizable;
 
 import java.awt.*;
 import java.util.Arrays;

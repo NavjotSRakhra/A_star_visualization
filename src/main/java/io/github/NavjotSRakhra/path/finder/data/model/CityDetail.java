@@ -1,4 +1,4 @@
-package data.model;
+package io.github.NavjotSRakhra.path.finder.data.model;
 
 import java.util.List;
 

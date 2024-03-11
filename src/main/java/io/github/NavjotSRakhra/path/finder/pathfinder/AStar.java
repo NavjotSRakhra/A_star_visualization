@@ -1,8 +1,8 @@
-package pathfinder;
+package io.github.NavjotSRakhra.path.finder.pathfinder;
 
-import data.model.CityDetail;
-import data.model.State;
-import ui.VisualizationJPanel;
+import io.github.NavjotSRakhra.path.finder.data.model.CityDetail;
+import io.github.NavjotSRakhra.path.finder.data.model.State;
+import io.github.NavjotSRakhra.path.finder.ui.VisualizationJPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,9 +12,9 @@ import java.util.*;
 
 import static java.lang.Thread.sleep;
 
-public class Dijkstra {
+public class AStar {
     public static boolean findPath(CityDetail startCity, CityDetail goalCity, State state, VisualizationJPanel panel) throws InterruptedException, InvocationTargetException {
-        final Queue<CityDetail> openSet = new PriorityQueue<>(Comparator.comparingInt(CityDetail::cost));
+        final Queue<CityDetail> openSet = new PriorityQueue<>(Comparator.comparingDouble(a -> calcFScore(a, goalCity)));
         final Set<CityDetail> openHashSet = new HashSet<>();
         final Set<CityDetail> closedSet = new HashSet<>();
         final Map<CityDetail, CityDetail> cameFrom = new HashMap<>();
@@ -82,5 +82,28 @@ public class Dijkstra {
 
         SwingUtilities.invokeAndWait(panel::repaint);
 //        Thread.sleep(50);
+    }
+
+    private static void paintArea(State state, VisualizationJPanel panel, CityDetail cityDetail) throws InterruptedException, InvocationTargetException {
+        SwingUtilities.invokeAndWait(() -> {
+            double height = (double) panel.getHeight() / state.rows();
+            double width = (double) panel.getWidth() / state.cols();
+
+            panel.paintImmediately(new Rectangle((int) (cityDetail.x() * width - 1), (int) (cityDetail.y() * height - 1), (int) (height + 2), (int) (width + 2)));
+        });
+    }
+
+    private static double calcFScore(CityDetail city, CityDetail goalCity) {
+        return heuristic(city, goalCity) + city.cost();
+    }
+
+    private static double heuristic(CityDetail city, CityDetail goal) {
+        if (city.equals(goal)) return 0;
+
+        int ac = Math.abs(city.x() - goal.x());
+        int cb = Math.abs(city.y() - goal.y());
+
+        return Math.hypot(ac, cb);
+//        return ac + cb;
     }
 }

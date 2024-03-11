@@ -1,9 +1,11 @@
-import data.model.State;
-import pathfinder.AStar;
-import pathfinder.BFS;
-import pathfinder.Dijkstra;
-import ui.GUI;
-import ui.VisualizationJPanel;
+package io.github.NavjotSRakhra.path.finder;
+
+import io.github.NavjotSRakhra.path.finder.data.model.State;
+import io.github.NavjotSRakhra.path.finder.pathfinder.AStar;
+import io.github.NavjotSRakhra.path.finder.pathfinder.BFS;
+import io.github.NavjotSRakhra.path.finder.pathfinder.Dijkstra;
+import io.github.NavjotSRakhra.path.finder.ui.GUI;
+import io.github.NavjotSRakhra.path.finder.ui.VisualizationJPanel;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Scanner;
@@ -22,7 +24,7 @@ public class Run {
         switch (a) {
             case 1:
                 do {
-                    state = new State(50, 50);
+                    state = new State(100, 100);
                     state.randomAddWalls();
                     panel.setNewData(state);
                     while (state.getCityContent(state.getRows() - 1, state.getCols() - 1).isWall())
@@ -32,7 +34,7 @@ public class Run {
                 break;
             case 2:
                 do {
-                    state = new State(50, 50);
+                    state = new State(250, 250);
                     state.randomAddWalls();
                     panel.setNewData(state);
                     while (state.getCityContent(state.getRows() - 1, state.getCols() - 1).isWall())

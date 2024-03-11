@@ -1,4 +1,4 @@
-package data;
+package io.github.NavjotSRakhra.path.finder.data;
 
 import java.awt.*;
 

@@ -1,4 +1,4 @@
-package ui;
+package io.github.NavjotSRakhra.path.finder.ui;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,8 +1,8 @@
-package pathfinder;
+package io.github.NavjotSRakhra.path.finder.pathfinder;
 
-import data.model.CityDetail;
-import data.model.State;
-import ui.VisualizationJPanel;
+import io.github.NavjotSRakhra.path.finder.data.model.CityDetail;
+import io.github.NavjotSRakhra.path.finder.data.model.State;
+import io.github.NavjotSRakhra.path.finder.ui.VisualizationJPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,9 +12,9 @@ import java.util.*;
 
 import static java.lang.Thread.sleep;
 
-public class AStar {
+public class BFS {
     public static boolean findPath(CityDetail startCity, CityDetail goalCity, State state, VisualizationJPanel panel) throws InterruptedException, InvocationTargetException {
-        final Queue<CityDetail> openSet = new PriorityQueue<>(Comparator.comparingDouble(a -> calcFScore(a, goalCity)));
+        final Queue<CityDetail> openSet = new ArrayDeque<>();
         final Set<CityDetail> openHashSet = new HashSet<>();
         final Set<CityDetail> closedSet = new HashSet<>();
         final Map<CityDetail, CityDetail> cameFrom = new HashMap<>();
@@ -47,20 +47,12 @@ public class AStar {
 
                 if (neighbour.isWall()) continue;
                 if (closedSet.contains(neighbour)) continue;
+                if (openHashSet.contains(neighbour)) continue;
 
-                var tentativeG = current.cost() + neighbour.cost();
-                if (!openHashSet.contains(neighbour)) {
-                    state.setCityCost(x, y, tentativeG);
-                    openSet.offer(state.getCityContent(x, y));
-                    openHashSet.add(state.getCityContent(x, y));
-                    cameFrom.put(neighbour, current);
-                } else if (tentativeG < neighbour.cost()) {
-                    state.setCityCost(x, y, tentativeG);
-                    openHashSet.add(state.getCityContent(x, y));
-                    openSet.offer(state.getCityContent(x, y));
-                    cameFrom.put(neighbour, current);
-                }
+                openSet.offer(neighbour);
+                openHashSet.add(neighbour);
 
+                cameFrom.put(neighbour, current);
             }
         }
         System.out.println("Not found");
@@ -82,28 +74,5 @@ public class AStar {
 
         SwingUtilities.invokeAndWait(panel::repaint);
 //        Thread.sleep(50);
-    }
-
-    private static void paintArea(State state, VisualizationJPanel panel, CityDetail cityDetail) throws InterruptedException, InvocationTargetException {
-        SwingUtilities.invokeAndWait(() -> {
-            double height = (double) panel.getHeight() / state.rows();
-            double width = (double) panel.getWidth() / state.cols();
-
-            panel.repaint(new Rectangle((int) (cityDetail.x() * width - 1), (int) (cityDetail.y() * height - 1), (int) (height + 2), (int) (width + 2)));
-        });
-    }
-
-    private static double calcFScore(CityDetail city, CityDetail goalCity) {
-        return heuristic(city, goalCity) + city.cost();
-    }
-
-    private static double heuristic(CityDetail city, CityDetail goal) {
-        if (city.equals(goal)) return 0;
-
-        int ac = Math.abs(city.x() - goal.x());
-        int cb = Math.abs(city.y() - goal.y());
-
-        return Math.hypot(ac, cb);
-//        return ac + cb;
     }
 }

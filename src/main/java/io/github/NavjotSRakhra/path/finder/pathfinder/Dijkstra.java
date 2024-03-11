@@ -1,8 +1,8 @@
-package pathfinder;
+package io.github.NavjotSRakhra.path.finder.pathfinder;
 
-import data.model.CityDetail;
-import data.model.State;
-import ui.VisualizationJPanel;
+import io.github.NavjotSRakhra.path.finder.data.model.CityDetail;
+import io.github.NavjotSRakhra.path.finder.data.model.State;
+import io.github.NavjotSRakhra.path.finder.ui.VisualizationJPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,9 +12,9 @@ import java.util.*;
 
 import static java.lang.Thread.sleep;
 
-public class BFS {
+public class Dijkstra {
     public static boolean findPath(CityDetail startCity, CityDetail goalCity, State state, VisualizationJPanel panel) throws InterruptedException, InvocationTargetException {
-        final Queue<CityDetail> openSet = new ArrayDeque<>();
+        final Queue<CityDetail> openSet = new PriorityQueue<>(Comparator.comparingInt(CityDetail::cost));
         final Set<CityDetail> openHashSet = new HashSet<>();
         final Set<CityDetail> closedSet = new HashSet<>();
         final Map<CityDetail, CityDetail> cameFrom = new HashMap<>();
@@ -47,12 +47,20 @@ public class BFS {
 
                 if (neighbour.isWall()) continue;
                 if (closedSet.contains(neighbour)) continue;
-                if (openHashSet.contains(neighbour)) continue;
 
-                openSet.offer(neighbour);
-                openHashSet.add(neighbour);
+                var tentativeG = current.cost() + neighbour.cost();
+                if (!openHashSet.contains(neighbour)) {
+                    state.setCityCost(x, y, tentativeG);
+                    openSet.offer(state.getCityContent(x, y));
+                    openHashSet.add(state.getCityContent(x, y));
+                    cameFrom.put(neighbour, current);
+                } else if (tentativeG < neighbour.cost()) {
+                    state.setCityCost(x, y, tentativeG);
+                    openHashSet.add(state.getCityContent(x, y));
+                    openSet.offer(state.getCityContent(x, y));
+                    cameFrom.put(neighbour, current);
+                }
 
-                cameFrom.put(neighbour, current);
             }
         }
         System.out.println("Not found");

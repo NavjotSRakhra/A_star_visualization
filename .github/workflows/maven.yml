@@ -11,8 +11,6 @@ name: Java CI with Maven
 on:
   push:
     branches: [ "main" ]
-    tags:
-    - '*'
   pull_request:
     branches: [ "main" ]
 
@@ -37,3 +35,4 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         artifacts: "target/*.jar"
+        tag: ${{ github.ref }}

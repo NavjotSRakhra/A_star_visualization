@@ -30,7 +30,7 @@ cd PathFindingVisualization
 ```bash
 mvn clean package
 cd target
-java -jar PathFindingVisualizer-1.0.2.jar
+java -jar app.jar
 ```
 
 ## License

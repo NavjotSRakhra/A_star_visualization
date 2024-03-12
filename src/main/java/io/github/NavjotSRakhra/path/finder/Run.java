@@ -35,7 +35,7 @@ public class Run {
                 break;
             case 2:
                 do {
-                    state = new State(250, 250);
+                    state = new State(100, 100);
                     state.randomAddWalls();
                     panel.setNewData(state);
                     while (state.getCityContent(state.getRows() - 1, state.getCols() - 1).isWall())

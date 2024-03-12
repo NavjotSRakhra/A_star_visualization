@@ -6,7 +6,7 @@
 
     <groupId>io.github.NavjotSRakhra</groupId>
     <artifactId>PathFindingVisualizer</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
 
     <properties>
         <maven.compiler.source>20</maven.compiler.source>
@@ -27,6 +27,7 @@
                             <mainClass>io.github.NavjotSRakhra.path.finder.Run</mainClass>
                         </manifest>
                     </archive>
+                    <finalName>app</finalName>
                 </configuration>
             </plugin>
         </plugins>
